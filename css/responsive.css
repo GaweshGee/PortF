@@ -1,0 +1,11 @@
+@media (max-width: 660px) {
+  .hero .titelBar .nav { display: none; }
+  .hero .titelBar .toggle,
+  .hero .titelBar .text { display: flex; }
+  .frame-counter { display: none; }
+  .captions { bottom: 7vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caption { transition: none; }
+}
