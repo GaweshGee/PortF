@@ -1,21 +1,21 @@
 :root {
-  /* Core stage — matches the sketch/paper background */
-  --seq-stage: #eee8da; /* warm paper/cream bg, matches frames */
-  --seq-stage-alt: #e3dbc8; /* slightly deeper panel bg (mobile menu) */
-  --seq-ink: #221d17; /* near-black ink for text */
-  --seq-ink-soft: rgba(34, 29, 23, 0.65); /* secondary text */
-  --seq-ink-dim: rgba(34, 29, 23, 0.4); /* tertiary/disabled text */
+  /* Core stage — unchanged, still matches the sketch/paper frames */
+  --seq-stage: #eee8da;
+  --seq-stage-alt: #e3dbc8;
+  --seq-ink: #221d17;
+  --seq-ink-soft: rgba(34, 29, 23, 0.65);
+  --seq-ink-dim: rgba(34, 29, 23, 0.4);
 
-  /* Sepia/brass accent range — reads on light bg */
-  --seq-brass: #8a6a38; /* base accent (darker, for contrast on cream) */
-  --seq-brass-bright: #b08a3e; /* hover/highlight */
-  --seq-brass-deep: #5c4523; /* pressed/shadow */
+  /* Vibrant green accent range */
+  --seq-brass: #4f8a5b; /* base accent — rich grass green */
+  --seq-brass-bright: #6fbf73; /* hover/highlight — bright leaf green */
+  --seq-brass-deep: #35603e; /* pressed/shadow — deep forest */
 
-  /* Structural lines & surfaces */
+  /* Structural lines & surfaces — unchanged */
   --seq-line: rgba(34, 29, 23, 0.14);
   --seq-line-strong: rgba(34, 29, 23, 0.28);
-  --seq-scrim: rgba(238, 232, 218, 0.92); /* light scrim for loader overlay */
-  --seq-glass: rgba(34, 29, 23, 0.05); /* dark-tinted glass on light bg */
+  --seq-scrim: rgba(238, 232, 218, 0.92);
+  --seq-glass: rgba(34, 29, 23, 0.05);
 
   /* Status */
   --seq-error: #a8432b;
@@ -107,7 +107,9 @@ body {
   width: auto;
   object-fit: contain;
   cursor: pointer;
-  transition: filter 0.3s ease, transform 0.3s ease;
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
 }
 
 .hero .titelBar img:hover {
@@ -334,29 +336,53 @@ body {
 
 .captions {
   position: absolute;
-  right: 30vw;
-  top: 50vh;
+  right: 43vw;
+  top: 55%;
   z-index: 3;
+  pointer-events: none;
+  text-align: justify;
+}
+
+.captions {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 6vw;
   pointer-events: none;
 }
 
 .caption {
   position: absolute;
-  left: 0;
-  bottom: 0;
+  right: 6vw;
+  max-width: min(42ch, 46vw);
   margin: 0;
-  max-width: 42ch;
+  text-align: center;
   font-family: "Anton", sans-serif;
   font-weight: 400;
-  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-size: clamp(3.8rem, 9vw, 7.5rem);
+  max-width: min(46ch, 48vw);
   line-height: 1.15;
   letter-spacing: 0.01em;
   color: var(--seq-ink);
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(22px);
   transition:
     opacity 0.35s ease,
     transform 0.35s ease;
+  filter: drop-shadow(0 4px 10px rgba(34, 29, 23, 0.15));
+}
+
+.caption:nth-child(2) {
+  right: 20vw;
+}
+
+.caption span {
+  font-family: "Anton", sans-serif;
+  color: var(--seq-brass);
+  text-shadow: 0 0 20px rgba(79, 138, 91, 0.4);
 }
 
 .caption.is-visible {
