@@ -15,6 +15,7 @@
   }
   .content .caption:nth-child(3) {
     transform: scale(1.8);
+    right: 18vw;
   }
   .content .caption:nth-child(4) {
     transform: scale(1.6);
@@ -30,6 +31,7 @@
   }
   .content .caption:nth-child(3) {
     transform: scale(1.35);
+    right: 23vw;
   }
 }
 
@@ -40,6 +42,8 @@
   }
   .content .caption:nth-child(3) {
     transform: scale(1.1);
+    top: 18vh;
+    right: 29vw;
   }
   .content .caption:nth-child(4) {
     top: 35vh;
