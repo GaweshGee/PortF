@@ -221,3 +221,52 @@ document.addEventListener("DOMContentLoaded", function () {
   preload();
   initScroll();
 });
+
+// aboutSection
+
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+
+  const aboutSection = document.getElementById("about");
+  if (!aboutSection || !window.gsap || !window.ScrollTrigger) return;
+
+  const words = aboutSection.querySelectorAll(".about-word");
+  const desc = aboutSection.querySelector(".about-desc");
+
+  const prefersReduced =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (prefersReduced) {
+    gsap.set(words, { opacity: 1, y: 0 });
+    gsap.set(desc, { opacity: 1, y: 0 });
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: aboutSection,
+      start: "top 65%",
+      toggleActions: "play none none reverse",
+    },
+  });
+
+  tl.to(words, {
+    yPercent: 140,
+    opacity: 1,
+    duration: 0.7,
+    ease: "back.out(1.6)",
+    stagger: 0.16,
+  }).to(
+    desc,
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "power2.out",
+    },
+    "-=0.15"
+  );
+});
