@@ -57,10 +57,10 @@
     letter-spacing: 0.2em;
   }
   .tags-top {
-    bottom: 105%;
+    bottom: 100%;
   }
   .tags-bottom {
-    top: 105%;
+    top: 100%;
   }
 }
 
