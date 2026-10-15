@@ -1,56 +1,99 @@
+/* =====================================================================
+   TripleGs — master.css  (responsive rules live at the bottom)
+   ===================================================================== */
+
 :root {
-  /* Core stage — unchanged, still matches the sketch/paper frames */
-  --seq-stage: #eee8da;
-  --seq-stage-alt: #e3dbc8;
-  --seq-ink: #221d17;
-  --seq-ink-soft: rgba(34, 29, 23, 0.65);
-  --seq-ink-dim: rgba(34, 29, 23, 0.4);
+  color-scheme: dark;
 
-  /* Vibrant green accent range */
-  --seq-brass: #4f8a5b; /* base accent — rich grass green */
-  --seq-brass-bright: #6fbf73; /* hover/highlight — bright leaf green */
-  --seq-brass-deep: #35603e; /* pressed/shadow — deep forest */
+  /* Stage */
+  --bg: #05070b;
+  --fg: #e8ebf7;
+  --sinhala-font: "CPS44";
 
-  /* Structural lines & surfaces — unchanged */
-  --seq-line: rgba(34, 29, 23, 0.14);
-  --seq-line-strong: rgba(34, 29, 23, 0.28);
-  --seq-scrim: rgba(238, 232, 218, 0.92);
-  --seq-glass: rgba(34, 29, 23, 0.05);
+  /* Text on the dark stage */
+  --text: #f2eadb;
+  --text-soft: rgba(242, 234, 219, 0.72);
+  --line: rgba(242, 234, 219, 0.14);
 
-  /* Status */
-  --seq-error: #a8432b;
-  --seq-success: #4f7a44;
+  /* Accent: sunrise gold */
+  --accent: #f0a64b;
+  --accent-bright: #ffc57a;
+  --accent-deep: #b97a28;
 
-  /* Z-index */
+  /* Cream glass nav pill */
+  --ink: #f2eadb; /* was #1b1712 (dark text) */
+  --glass: rgba(10, 12, 20, 1); /* was the cream colour */
+
   --z-toolbar: 50;
-  --z-sequence: 1;
+  --z-intro: 1;
 }
 
-* {
+@property --a {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-spin {
+  to {
+    --a: 360deg;
+  }
+}
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
-  font-style: normal;
 }
 
-html,
+html {
+  scroll-behavior: auto;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  background: var(--bg);
+}
+
 body {
   width: 100%;
-  min-height: 100vh;
-  background-color: var(--seq-stage);
-  overflow-x: hidden;
+  min-height: 100%;
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--fg);
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
+button,
+a {
+  touch-action: manipulation;
 }
 
-.hide {
-  display: none !important;
+button {
+  font: inherit;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
 }
 
 .hero {
@@ -58,6 +101,9 @@ body {
   position: relative;
 }
 
+/* ---------- Nav pill ---------- */
+/* (no backdrop-filter: at 92% opacity the blur was invisible, but it forced
+   a re-blur of the animated sky behind it on every frame) */
 .hero .titelBar {
   width: 90%;
   max-width: 1200px;
@@ -73,33 +119,44 @@ body {
   align-items: center;
   padding: 0 1.5rem;
   border-radius: 40px;
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  transition: all 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.35);
-  background-image:
-    repeating-linear-gradient(
-      115deg,
-      rgba(34, 29, 23, 0.05) 0px,
-      rgba(34, 29, 23, 0.05) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    repeating-linear-gradient(
-      65deg,
-      rgba(34, 29, 23, 0.035) 0px,
-      rgba(34, 29, 23, 0.035) 1px,
-      transparent 1px,
-      transparent 7px
-    );
-  background-blend-mode: multiply;
+  background-color: var(--glass);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.hero .titelBar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--a),
+    #6ff2d0,
+    #6fb4ff,
+    #a58bff,
+    #f3a6e8,
+    #6ff2d0
+  );
+  animation: border-spin 6s linear infinite;
+}
+
+.hero .titelBar::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: var(--glass);
+}
+
+.hero .titelBar > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero .titelBar .logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
 }
 
@@ -111,11 +168,7 @@ body {
   transition:
     filter 0.3s ease,
     transform 0.3s ease;
-}
-
-.hero .titelBar img:hover {
-  filter: drop-shadow(0 0 6px rgba(185, 146, 79, 0.6));
-  transform: scale(1.03);
+  filter: brightness(0) invert(1);
 }
 
 .hero .titelBar .nav {
@@ -131,20 +184,16 @@ body {
 
 .hero .titelBar ul li {
   position: relative;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
 }
 
 .hero .titelBar ul li a {
   text-decoration: none;
   text-transform: uppercase;
-  color: var(--seq-ink);
-  letter-spacing: 0.05em;
+  color: var(--ink);
+  letter-spacing: 0.12em;
   transition: color 0.3s ease;
-}
-
-.hero .titelBar ul li a:hover {
-  color: var(--seq-brass-bright);
 }
 
 .hero .titelBar ul li span {
@@ -153,14 +202,10 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--seq-brass);
+  background-color: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
-}
-
-.hero .titelBar ul li:hover span {
-  transform: scaleX(1);
 }
 
 .hero .titelBar .toggle,
@@ -174,6 +219,12 @@ body {
   pointer-events: none;
 }
 
+.hero .titelBar .text p {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
 .hero .titelBar .toggle {
   background: transparent;
   border: none;
@@ -181,6 +232,11 @@ body {
   position: relative;
   width: 36px;
   height: 36px;
+  transition: transform 0.12s ease-out;
+}
+
+.hero .titelBar .toggle:active {
+  transform: scale(0.94);
 }
 
 .hero .titelBar .toggle img {
@@ -208,9 +264,10 @@ body {
   pointer-events: auto;
 }
 
+/* ---------- Mobile menu ---------- */
 .hero .menu {
   position: fixed;
-  top: 100px;
+  top: 125px;
   left: 5%;
   width: 90%;
   padding: 5rem 0;
@@ -222,31 +279,13 @@ body {
   visibility: hidden;
   opacity: 0;
   transform: translateY(-10px);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  background-color: var(--glass);
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
   transition:
     opacity 0.3s ease,
     transform 0.3s ease,
     visibility 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.15);
-  background-image:
-    repeating-linear-gradient(
-      115deg,
-      rgba(34, 29, 23, 0.05) 0px,
-      rgba(34, 29, 23, 0.05) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    repeating-linear-gradient(
-      65deg,
-      rgba(34, 29, 23, 0.035) 0px,
-      rgba(34, 29, 23, 0.035) 1px,
-      transparent 1px,
-      transparent 7px
-    );
-  background-blend-mode: multiply;
 }
 
 .hero .menu.show {
@@ -266,204 +305,390 @@ body {
 .hero .menu ul li a {
   text-decoration: none;
   text-transform: uppercase;
-  color: var(--seq-ink);
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.1rem;
+  color: var(--text);
+  font-family: "Anton", sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.08rem;
   transition:
     color 0.3s ease,
     letter-spacing 0.3s ease;
 }
 
-.hero .menu ul li a:hover {
-  color: var(--seq-brass);
-  letter-spacing: 0.15rem;
+.hero .menu ul li a:active {
+  color: var(--accent-bright);
 }
 
-/* Sequence Canvas & Animation Controls */
-#sequence {
+/* ---------- Intro (hero stage) ---------- */
+.intro {
   position: relative;
-  z-index: var(--z-sequence);
+  width: 100%;
+  z-index: var(--z-intro);
+  background: var(--bg);
 }
 
-.sequence-sticky {
+.intro-stage {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh; /* fallback */
+  height: 100svh;
   overflow: hidden;
-  background: var(--seq-stage);
+  background: var(--bg);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-#seq-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: var(--seq-stage);
-}
-
-.rail-track {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--seq-line);
-  z-index: 3;
-}
-
-.rail-fill {
-  height: 100%;
-  width: 100%;
-  background: var(--seq-brass);
-  transform: scaleX(0);
-  transform-origin: left center;
-}
-
-.frame-counter {
-  position: absolute;
-  top: clamp(90px, 14vh, 140px);
-  right: 24px;
-  font-family: "Raleway", sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--seq-ink-soft);
-  z-index: 3;
-  background: rgba(20, 16, 12, 0.6);
-  padding: 6px 12px;
-  border-radius: 4px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-.captions {
-  position: absolute;
-  right: 43vw;
-  top: 55%;
-  z-index: 3;
-  pointer-events: none;
-  text-align: justify;
-}
-
-.captions {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
+.stage-wrap {
+  flex: 1;
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding: 0 6vw;
-  pointer-events: none;
+  justify-content: center;
+  padding: 0 16px;
 }
 
-.caption {
+.stage {
+  --h: 1.45em;
+  --lines: 1;
+  font-size: clamp(48px, 14vw, 240px);
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  height: calc(var(--h) * var(--lines));
+  max-width: 100%;
+}
+
+/* ---------- Taglines (above / below the hero word) ---------- */
+.stage-box {
+  position: relative;
+  max-width: 100%;
+}
+
+/* absolutely positioned, so they never push the word or the ink canvas */
+.tags {
   position: absolute;
-  right: 6vw;
-  max-width: min(42ch, 46vw);
-  margin: 0;
-  text-align: center;
-  font-family: "Anton", sans-serif;
-  font-weight: 400;
-  font-size: clamp(3.8rem, 9vw, 7.5rem);
-  max-width: min(46ch, 48vw);
-  line-height: 1.15;
-  letter-spacing: 0.01em;
-  color: var(--seq-ink);
-  opacity: 0;
-  transform: translateY(22px);
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease;
-  filter: drop-shadow(0 4px 10px rgba(34, 29, 23, 0.15));
-}
-
-.caption:nth-child(2) {
-  right: 20vw;
-}
-
-.caption span {
-  font-family: "Anton", sans-serif;
-  color: var(--seq-brass);
-  text-shadow: 0 0 20px rgba(79, 138, 91, 0.4);
-}
-
-.caption.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Preloader */
-.loader {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 760px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  background: var(--seq-scrim);
-  transition: opacity 0.5s ease;
-}
-
-.loader.is-hidden {
-  opacity: 0;
+  gap: 0.2em;
+  text-align: center;
   pointer-events: none;
+  font-family: "Montserrat", sans-serif;
+  font-size: clamp(0.7rem, 1.3vw, 1rem);
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--text-soft);
 }
 
-.loader-ring {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid var(--seq-line);
-  border-top-color: var(--seq-brass);
-  animation: seq-spin 0.8s linear infinite;
+.tags-top {
+  bottom: 100%;
+}
+.tags-bottom {
+  top: 100%;
 }
 
-@keyframes seq-spin {
+.tl {
+  display: block;
+  line-height: 1.6;
+}
+
+.tw {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* same letter-roll idea as the hero word */
+.tc {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  height: 1.6em;
+}
+
+.tc > span {
+  display: block;
+  height: 1.6em;
+  line-height: 1.6em;
+  transform: translateY(100%); /* waiting below */
+  transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+  transition-delay: calc(var(--i) * var(--ts, 25ms));
+}
+
+.tl.in .tc > span {
+  transform: translateY(0);
+}
+.tl.out .tc > span {
+  transform: translateY(-100%);
+}
+
+.row {
+  grid-area: 1/1;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.seg {
+  display: flex;
+  justify-content: center;
+}
+
+/* letter roll: every letter is a clipped window, the text slides inside it */
+.char {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  height: var(--h);
+}
+
+.char > span {
+  display: block;
+  height: var(--h);
+  line-height: var(--h);
+  transition:
+    transform 0.6s cubic-bezier(0.76, 0, 0.24, 1),
+    color 0.45s;
+  transition-delay: calc(var(--i) * 45ms);
+}
+
+.row.pre .char > span {
+  transform: translateY(100%); /* waiting below */
+}
+
+.row.out .char > span {
+  transform: translateY(-100%); /* rolled out above */
+}
+
+.row.si {
+  font-family: var(--sinhala-font), sans-serif;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.row.en {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+
+/* English only: the canvas takes over once the word has settled
+   (JS sizes and positions it to fit the word) */
+#ink {
+  position: absolute; /* was fixed */
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.45s;
+}
+
+.row.ink .char > span {
+  color: transparent;
+  transition:
+    transform 0.6s cubic-bezier(0.76, 0, 0.24, 1),
+    color 0.45s;
+  transition-delay: 0s;
+}
+
+/* ---------- Background: aurora clouds + void + stars ---------- */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 50% 110%,
+    #0a0c18 0%,
+    #06070d 60%,
+    #04050a 100%
+  );
+}
+
+.cloud {
+  position: absolute;
+  will-change: transform;
+}
+
+/* every cloud = overlapping soft lumps, fading to transparent before the box edge */
+.c1 {
+  width: 90vmax;
+  height: 58vmax;
+  left: 30%;
+  top: -30%;
+  animation: d1 80s ease-in-out infinite alternate;
+  background:
+    radial-gradient(
+      45% 55% at 32% 42%,
+      rgba(124, 82, 232, 0.2),
+      transparent 72%
+    ),
+    radial-gradient(
+      50% 45% at 68% 60%,
+      rgba(96, 120, 255, 0.13),
+      transparent 72%
+    ),
+    radial-gradient(
+      34% 40% at 55% 24%,
+      rgba(170, 110, 240, 0.12),
+      transparent 70%
+    );
+}
+
+.c2 {
+  width: 80vmax;
+  height: 48vmax;
+  left: -28%;
+  top: 18%;
+  animation: d2 95s ease-in-out infinite alternate;
+  background:
+    radial-gradient(
+      48% 52% at 40% 50%,
+      rgba(40, 210, 165, 0.12),
+      transparent 72%
+    ),
+    radial-gradient(
+      40% 46% at 66% 38%,
+      rgba(60, 190, 220, 0.09),
+      transparent 70%
+    ),
+    radial-gradient(
+      36% 40% at 28% 68%,
+      rgba(70, 220, 150, 0.08),
+      transparent 70%
+    );
+}
+
+.c3 {
+  width: 78vmax;
+  height: 56vmax;
+  right: -30%;
+  top: 40%;
+  animation: d3 110s ease-in-out infinite alternate;
+  background:
+    radial-gradient(
+      46% 50% at 50% 50%,
+      rgba(70, 140, 255, 0.13),
+      transparent 72%
+    ),
+    radial-gradient(
+      38% 44% at 30% 36%,
+      rgba(100, 90, 240, 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      34% 38% at 72% 66%,
+      rgba(60, 200, 230, 0.07),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 40% at 30% 88%,
+      rgba(215, 100, 200, 0.09),
+      transparent 72%
+    );
+}
+
+#stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: tw 14s ease-in-out infinite alternate;
+}
+
+.void {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  pointer-events: none;
+  width: min(135vw, 1700px);
+  height: min(78vh, 860px);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    rgba(3, 4, 9, 0.97) 0%,
+    rgba(3, 4, 9, 0.94) 22%,
+    rgba(3, 4, 9, 0.8) 40%,
+    rgba(3, 4, 9, 0.52) 58%,
+    rgba(3, 4, 9, 0.24) 76%,
+    rgba(3, 4, 9, 0.07) 90%,
+    rgba(3, 4, 9, 0) 100%
+  );
+}
+
+/* fine grain keeps the dark gradients from banding */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@keyframes tw {
+  from {
+    opacity: 0.7;
+  }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
 }
 
-.loader-track {
-  width: 180px;
-  height: 3px;
-  background: var(--seq-line);
-  border-radius: 2px;
-  overflow: hidden;
+@keyframes d1 {
+  from {
+    transform: translate3d(-5%, 3%, 0) rotate(-6deg) scale(1);
+  }
+  to {
+    transform: translate3d(6%, -3%, 0) rotate(8deg) scale(1.12);
+  }
 }
 
-.loader-fill {
-  height: 100%;
-  width: 100%;
-  background: var(--seq-brass);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.15s ease;
+@keyframes d2 {
+  from {
+    transform: translate3d(-4%, -4%, 0) rotate(5deg) scale(1.05);
+  }
+  to {
+    transform: translate3d(7%, 5%, 0) rotate(-7deg) scale(0.95);
+  }
 }
 
-.loader-text {
-  font-family: "Raleway", sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  color: var(--seq-ink-soft);
+@keyframes d3 {
+  from {
+    transform: translate3d(5%, 3%, 0) rotate(-4deg) scale(0.96);
+  }
+  to {
+    transform: translate3d(-7%, -4%, 0) rotate(7deg) scale(1.1);
+  }
 }
 
-.loader.is-error .loader-ring {
-  display: none;
-}
-.loader.is-error .loader-fill {
-  background: #c85a3f;
+.noscript-note {
+  padding: 6vh 6vw;
+  color: var(--text);
+  background: var(--bg);
 }
 
-/* aboutSection */
-
+/* ---------- About ---------- */
 .about {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: var(--seq-stage);
+  min-height: 100svh;
+  color: var(--text);
   overflow: hidden;
+  z-index: 10;
+  background: transparent;
 }
 
 .about-inner {
@@ -471,6 +696,7 @@ body {
   align-items: center;
   width: 100%;
   min-height: 100vh;
+  min-height: 100svh;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 6vw;
@@ -480,27 +706,36 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: left;
   flex: 0 0 50%;
   max-width: 50%;
-  border-right: 1px solid var(--seq-line);
+  border-right: 1px solid var(--line);
+}
+
+.about-heading {
+  text-align: center;
+}
+
+/* Each word slides up from behind its own mask */
+.about-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.06em;
 }
 
 .about-word {
-  opacity: 0;
-  transform: translateY(-140%);
-  gap: 0 1.2rem;
-  margin: 0;
+  display: inline-block;
   font-family: "Anton", sans-serif;
-  font-weight: 700;
-  font-size: clamp(6.5rem, 14vw, 16rem);
+  font-weight: 400;
+  font-size: clamp(5rem, 14vw, 14rem);
   line-height: 1;
   letter-spacing: 0.03em;
-  color: var(--seq-ink);
-  will-change: transform, opacity;
+  color: var(--text);
 }
 
-.about-word:nth-child(4) {
-  color: var(--seq-brass);
+.about-heading .about-mask:last-child .about-word {
+  color: var(--accent);
 }
 
 .about-right {
@@ -513,14 +748,11 @@ body {
 
 .about-desc {
   max-width: 46ch;
-  opacity: 0;
-  transform: translateY(24px);
-  will-change: transform, opacity;
 }
 
 .about-desc p {
-  font-family: "Montserrat", sans-serif;
   font-size: clamp(1rem, 1.3vw, 1.15rem);
   line-height: 1.7;
-  color: var(--seq-ink-soft);
+  color: var(--text-soft);
+  font-weight: 400;
 }

@@ -1,26 +1,17 @@
-@media (max-width: 1500px) {
-  .content .caption {
-    right: 2vw;
+@media (hover: hover) and (pointer: fine) {
+  .hero .titelBar .logo img:hover {
+    filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(240, 166, 75, 0.2));
+    transform: scale(1.03);
   }
-}
-
-@media (max-width: 1024px) {
-  .content .caption {
-    right: 10vw;
-    transform: scale(1.4);
-    top: 20vh;
+  .hero .titelBar ul li a:hover {
+    color: var(--accent-bright);
   }
-  .content .caption:nth-child(2) {
-    right: 30vw;
+  .hero .titelBar ul li:hover span {
+    transform: scaleX(1);
   }
-  .content .caption:nth-child(3) {
-    transform: scale(1.8);
-    right: 18vw;
-  }
-  .content .caption:nth-child(4) {
-    transform: scale(1.6);
-    top: 35vh;
-    right: 20vw;
+  .hero .menu ul li a:hover {
+    color: var(--accent-bright);
+    letter-spacing: 0.15rem;
   }
 }
 
@@ -28,19 +19,48 @@
   .about-inner {
     flex-direction: column;
     align-items: center;
-    padding: 15vh 6vw;
-    gap: 3rem;
+    padding: 25vh 6vw;
+    gap: 7rem;
   }
   .about-left {
     flex: none;
     max-width: 100%;
     border-right: none;
     padding-right: 0;
+    transform: scale(1.6);
   }
   .about-right {
     flex: none;
     max-width: 100%;
     padding-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .void {
+    width: 155vw;
+    height: 88vh;
+    height: 88dvh;
+  }
+  .stage {
+    --h: 1.05em;
+    --lines: 3;
+    font-size: min(38vw, 21vh);
+    font-size: min(38vw, 21dvh);
+  }
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .tags {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+  }
+  .tags-top {
+    bottom: 105%;
+  }
+  .tags-bottom {
+    top: 105%;
   }
 }
 
@@ -52,41 +72,23 @@
   .hero .titelBar .text {
     display: flex;
   }
-  .frame-counter {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .caption {
+  .char > span,
+  .row.ink .char > span {
     transition: none;
   }
-}
-
-@media (max-width: 550px) {
-  .content .caption {
-    right: 15vw;
-    transform: scale(0.8);
+  .cloud,
+  #stars {
+    animation: none;
   }
-  .content .caption:nth-child(3) {
-    transform: scale(1.35);
-    right: 23vw;
+  .hero .titelBar::before {
+    animation: none;
   }
-}
-
-@media (max-width: 400px) {
-  .content .caption {
-    right: 20vw;
-    transform: scale(0.8);
-  }
-  .content .caption:nth-child(3) {
-    transform: scale(1.1);
-    top: 18vh;
-    right: 29vw;
-  }
-  .content .caption:nth-child(4) {
-    top: 35vh;
-    right: 23vw;
-    transform: scale(1.25);
+  .char > span,
+  .row.ink .char > span,
+  .tc > span {
+    transition: none;
   }
 }
