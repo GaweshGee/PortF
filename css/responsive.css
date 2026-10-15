@@ -13,14 +13,46 @@
     color: var(--accent-bright);
     letter-spacing: 0.15rem;
   }
+  .tm-card.in:hover {
+    transform: translateY(-4px);
+    border-color: rgba(240, 166, 75, 0.45);
+    background: rgba(255, 255, 255, 0.055);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+  }
+  .tm-card.in:hover .tm-sticker {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(-8deg);
+  }
+  .tm-year:hover {
+    color: var(--accent-bright);
+  }
+}
+
+@media (hover: none) {
+  .tm-card.in.is-touch {
+    transform: translateY(-4px);
+    border-color: rgba(240, 166, 75, 0.45);
+    background: rgba(255, 255, 255, 0.055);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+  }
+  .tm-card.in.is-touch .tm-sticker {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(-8deg);
+  }
 }
 
 @media (max-width: 900px) {
   .about-inner {
     flex-direction: column;
     align-items: center;
-    padding: 25vh 6vw;
+    padding: 22vh 6vw 0 6vw;
     gap: 7rem;
+  }
+  .tm-stretch {
+    display: none;
+  }
+  .about-word.is-cut {
+    clip-path: inset(0 0 0 0);
   }
   .about-left {
     flex: none;
@@ -62,6 +94,41 @@
   .tags-bottom {
     top: 100%;
   }
+  .tm-sticker {
+    width: 52px;
+    right: -6px;
+    bottom: -12px;
+  }
+}
+
+@media (max-width: 720px) {
+  .timeline {
+    --rail-w: 56px;
+    --head: 60px;
+    --railX: calc(var(--rail-w) / 2);
+  }
+  .tm-entry {
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  }
+  .tm-year {
+    grid-column: 2;
+    grid-row: 1;
+    position: static;
+    padding: 0 0 0.8rem;
+    text-align: left;
+    font-size: 3.2rem;
+  }
+  .tm-dot {
+    grid-column: 1;
+    grid-row: 1;
+    margin-top: 1.3rem;
+  }
+  .tm-card {
+    grid-column: 2;
+    grid-row: 2;
+    margin-left: 0;
+    padding: 1.2rem;
+  }
 }
 
 @media (max-width: 660px) {
@@ -90,5 +157,16 @@
   .row.ink .char > span,
   .tc > span {
     transition: none;
+  }
+  .shoot {
+    display: none;
+  }
+  .tm-head {
+    animation: none;
+  }
+  .tm-card {
+    transition: none;
+    opacity: 1;
+    transform: none;
   }
 }
